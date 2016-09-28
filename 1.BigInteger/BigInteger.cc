@@ -2,7 +2,7 @@
 #include <exception>
 #include <string>
 
-#include "BigInteger.h"
+#include "BigInteger.hh"
 
 // constructors
 BigInteger::BigInteger(int num)

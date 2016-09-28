@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "BigInteger.h"
+#include "BigInteger.hh"
 
 class BigIntegerTest : public ::testing::Test
 {
