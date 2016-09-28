@@ -7,9 +7,12 @@ BIN := tests.x
 test: $(BIN)
 	./$(BIN)
 
-tests.x: BigInteger.cc BigInteger.hh tests.cc
+$(BIN): BigInteger.o tests.cc
 	$(CXX) $(LIB) $? -o $@
 
+%.o: %.cc
+	$(CXX) $(LIB) $< -c -o $@
+
 clean:
-	-rm $(BIN)
+	-rm $(BIN) *.o
 
