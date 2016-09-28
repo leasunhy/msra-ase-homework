@@ -43,7 +43,10 @@ BigInteger BigInteger::operator+(const BigInteger& rhs) const
             result.sign_ = rhs.sign_;
         } else {
             result = lhs.unsignedSubtract_(rhs);
-            result.sign_ = lhs.sign_;
+            if (result.data_.size() == 1 && result.data_[0] == 0)
+                result.sign_ = 0;
+            else
+                result.sign_ = lhs.sign_;
         }
     }
     return result;
