@@ -1,3 +1,5 @@
+#include <random>
+#include <functional>
 #include <gtest/gtest.h>
 
 #include "BigInteger.hh"
@@ -8,7 +10,7 @@ class BigIntegerTest : public ::testing::Test
     BigIntegerTest()
         : one_trillion("1000000000000"), one_trillion_neg("-1000000000000"),
           two_trillion("2000000000000"),
-          one(1), zero(0)
+          one(1), one_neg(-1), zero(0)
     {
         // blank
     }
@@ -17,10 +19,13 @@ class BigIntegerTest : public ::testing::Test
     virtual void SetUp() { }
     virtual void TearDown() { }
 
+    std::default_random_engine generator;
+
     BigInteger one_trillion;
     BigInteger one_trillion_neg;
     BigInteger two_trillion;
     BigInteger one;
+    BigInteger one_neg;
     BigInteger zero;
 };
 
@@ -92,6 +97,34 @@ TEST_F(BigIntegerTest, UnsignedCompareTo) {
     EXPECT_EQ(zero.unsignedCompareTo(zero), 0);
     EXPECT_EQ(one_trillion_neg.unsignedCompareTo(one_trillion), 0);
     EXPECT_EQ(one_trillion.unsignedCompareTo(one_trillion_neg), 0);
+}
+
+TEST_F(BigIntegerTest, Mul1) {
+    EXPECT_EQ(zero * one, zero);
+}
+
+TEST_F(BigIntegerTest, Mul2) {
+    EXPECT_EQ(zero * one_trillion, zero);
+}
+
+TEST_F(BigIntegerTest, Mul3) {
+    EXPECT_EQ(one * one_trillion, one_trillion);
+}
+
+TEST_F(BigIntegerTest, Mul4) {
+    EXPECT_EQ(one_neg * one_trillion, one_trillion_neg);
+}
+
+TEST_F(BigIntegerTest, MulRandom) {
+    auto rand_int = std::bind(std::uniform_int_distribution<int>(-23333, 23333),
+                              this->generator);
+    for (int i = 0; i < 10; ++i) {
+        int a = rand_int();
+        int b = rand_int();
+        int p = a * b;
+        auto bi = BigInteger(a) * BigInteger(b);
+        EXPECT_EQ(bi, p);
+    }
 }
 
 int main(int argc, char **argv)

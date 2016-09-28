@@ -80,12 +80,57 @@ BigInteger BigInteger::operator-(const BigInteger& rhs) const
 
 BigInteger BigInteger::operator*(const BigInteger& rhs) const
 {
-    throw std::runtime_error("Not implemented");
+    const std::vector<char> *longer, *shorter;
+    if (data_.size() < rhs.data_.size())
+        longer = &rhs.data_, shorter = &this->data_;
+    else
+        longer = &this->data_, shorter = &rhs.data_;
+    std::vector<char> prod(shorter->size() + longer->size(), 0);
+    for (size_t i = 0; i < shorter->size(); ++i) {
+        int carry = 0;
+        for (size_t j = 0; j < longer->size(); ++j) {
+            int p = (*longer)[j] * (*shorter)[i] + carry + prod[i + j];
+            prod[i + j] = p % 10;
+            carry = p / 10;
+        }
+        if (carry)
+            prod[i + longer->size()] = carry;
+    }
+    int size = prod.size();
+    for (auto it = prod.rbegin(); it != prod.rend() && *it == 0; ++it)
+        size -= 1;
+    if (size == 0)
+        size = 1;
+    prod.resize(size);
+    BigInteger result;
+    result.data_ = prod;
+    result.sign_ = sign_ * rhs.sign_;
+    return result;
 }
 
 BigInteger BigInteger::operator/(const BigInteger& rhs) const
 {
     throw std::runtime_error("Not implemented");
+}
+
+BigInteger BigInteger::operator+(long long rhs) const
+{
+    return *this + BigInteger(rhs);
+}
+
+BigInteger BigInteger::operator-(long long rhs) const
+{
+    return *this - BigInteger(rhs);
+}
+
+BigInteger BigInteger::operator*(long long rhs) const
+{
+    return *this * BigInteger(rhs);
+}
+
+BigInteger BigInteger::operator/(long long rhs) const
+{
+    return *this / BigInteger(rhs);
 }
 
 bool BigInteger::operator<(const BigInteger& rhs) const

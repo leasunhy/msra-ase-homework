@@ -24,6 +24,11 @@ class BigInteger
     BigInteger operator*(const BigInteger& rhs) const;
     BigInteger operator/(const BigInteger& rhs) const;
 
+    BigInteger operator+(long long rhs) const;
+    BigInteger operator-(long long rhs) const;
+    BigInteger operator*(long long rhs) const;
+    BigInteger operator/(long long rhs) const;
+
     bool operator<(const BigInteger& rhs) const;
 
     // equality operators
