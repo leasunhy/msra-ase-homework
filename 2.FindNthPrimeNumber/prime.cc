@@ -4,13 +4,22 @@
 #include <algorithm>
 #include <bitset>
 #include <exception>
+#include <sstream>
 
-using namespace std;
+using std::vector;
+using std::cout;
+using std::endl;
+using std::runtime_error;
+using std::string;
+using std::stringstream;
 
-const int MAXN = 50000000;
+const int MAXN = 20000000;
+
+using PrimeType = long long;
 
 void print_usage(int argc, char **argv);
-vector<long long> get_primes(int maxn);
+vector<PrimeType> get_primes(int maxn);
+string print_number(PrimeType n, int section_len = 3);
 
 int main(int argc, char **argv)
 {
@@ -22,25 +31,38 @@ int main(int argc, char **argv)
     if (n <= 0)
         throw runtime_error("Invalid argument");
 
-    vector<long long> primes = get_primes(MAXN);
+    vector<PrimeType> primes = get_primes(MAXN);
 
-    cout << "The " << n << "th prime number is: " << primes[n - 1] << endl;
+    cout << print_number(primes[n - 1]) << endl;
     return 0;
 }
 
-vector<long long> get_primes(int maxn)
+string print_number(PrimeType n, int section_len)
+{
+    stringstream ss;
+    ss << n;
+    string ori = ss.str();
+    size_t first = ori.length() % section_len;
+    string result = ori.substr(0, first);
+    for (size_t i = first; i < ori.length(); i += section_len) {
+        result += ' ';
+        result += ori.substr(i, section_len);
+    }
+    return result;
+}
+
+vector<PrimeType> get_primes(int maxn)
 {
     // sieve
-    vector<bool> mask(maxn, true);
-    vector<long long> primes { 2, 3 };
-    for (long long j = 3 * 3; j < MAXN; j += 6)
-        mask[j] = false;
+    vector<bool> mask((maxn >> 1) + 1, true);
+    vector<PrimeType> primes { 2 };
 
-    for (long long i = 5; i < MAXN; i += 2) {
-        if (mask[i]) {
+    for (PrimeType i = 3; i < MAXN; i += 2) {
+        if (mask[i >> 1]) {
             primes.push_back(i);
-            for (long long j = i * i; j > 0 && j < MAXN; j += i + i)
-                mask[j] = false;
+            PrimeType step = i + i;
+            for (PrimeType j = i * i; j > 0 && j < MAXN; j += step)
+                mask[j >> 1] = false;
         }
     }
     return primes;
