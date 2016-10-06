@@ -5,6 +5,7 @@
 #include <bitset>
 #include <exception>
 #include <sstream>
+#include <limits>
 
 using std::vector;
 using std::cout;
@@ -13,12 +14,12 @@ using std::runtime_error;
 using std::string;
 using std::stringstream;
 
-const int MAXN = 20000000;
-
-using PrimeType = long long;
+using PrimeType = unsigned long long;
+//const PrimeType MAXN = std::numeric_limits<unsigned int>::max();
+const PrimeType MAXN = 20000000;
 
 void print_usage(int argc, char **argv);
-vector<PrimeType> get_primes(int maxn);
+vector<PrimeType> get_primes(PrimeType maxn);
 string print_number(PrimeType n, int section_len = 3);
 
 int main(int argc, char **argv)
@@ -51,7 +52,7 @@ string print_number(PrimeType n, int section_len)
     return result;
 }
 
-vector<PrimeType> get_primes(int maxn)
+vector<PrimeType> get_primes(PrimeType maxn)
 {
     // sieve
     vector<bool> mask((maxn >> 1) + 1, true);
