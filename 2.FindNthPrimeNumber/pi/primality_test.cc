@@ -32,12 +32,17 @@ int main(int argc, char ** argv)
         return -1;
     }
 
+    if (n == 1) {
+        cout << 2 << endl;
+        return 0;
+    }
+
     int bin_len;
     vector<unsigned int> lens;
     {
         ifstream fin(HELPER_FILENAME, std::ios::binary);
         bin_len = read_data<int>(fin);
-        auto vector_len = read_data<size_t>(fin);
+        auto vector_len = read_data<unsigned int>(fin);
         lens.resize(vector_len);
         fin.read(reinterpret_cast<char*>(lens.data()), vector_len * sizeof(unsigned int));
         fin.close();
@@ -60,6 +65,8 @@ int main(int argc, char ** argv)
     if (!(lower & 1))
         lower += 1;
     int bin_prime_counter = n - prev_sum;
+    if (lower == 1)
+        bin_prime_counter -= 1;
 
     std::default_random_engine generator(
         std::chrono::system_clock::now().time_since_epoch().count());

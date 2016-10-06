@@ -35,7 +35,7 @@ int main(int argc, char ** argv)
     if (count)
         counts.push_back(count);
         //cout.write(reinterpret_cast<char*>(&count), sizeof(count));
-    size_t len = counts.size();
+    unsigned int len = counts.size();
     int bin_len = BIN;
     cout.write(reinterpret_cast<char*>(&bin_len), sizeof(BIN));
     cout.write(reinterpret_cast<char*>(&len), sizeof(len));
