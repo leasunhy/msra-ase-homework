@@ -26,7 +26,7 @@ int main(int argc, char ** argv)
         print_usage(argc, argv);
         return -1;
     }
-    int n = std::strtol(argv[1], nullptr, 10);
+    unsigned n = std::strtoul(argv[1], nullptr, 10);
     if (n <= 0)
         throw runtime_error("Invalid argument");
 
@@ -41,7 +41,7 @@ int main(int argc, char ** argv)
         fin.close();
     }
 
-    PrimeType sum = 0, bin_index = 0, prev_sum;
+    PrimeType sum = 0, bin_index = 0, prev_sum = 0;
     while (sum < n) {
         prev_sum = sum;
         sum += lens[bin_index];
@@ -80,9 +80,9 @@ int main(int argc, char ** argv)
 template <typename T>
 T read_data(istream& in)
 {
-    char buf[sizeof(T)];
-    in.read(buf, sizeof(T));
-    return *reinterpret_cast<T*>(buf);
+    T res;
+    in.read(reinterpret_cast<char*>(&res), sizeof(T));
+    return res;
 }
 
 string print_number(PrimeType n, int section_len)
