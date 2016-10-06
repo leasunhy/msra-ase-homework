@@ -3,16 +3,15 @@
 #include <vector>
 #include <algorithm>
 #include <bitset>
-#include <exception>
 #include <sstream>
 #include <limits>
 
 using std::vector;
 using std::cout;
 using std::endl;
-using std::runtime_error;
 using std::string;
 using std::stringstream;
+using std::cerr;
 
 using PrimeType = unsigned long long;
 //const PrimeType MAXN = std::numeric_limits<unsigned int>::max();
@@ -29,8 +28,10 @@ int main(int argc, char **argv)
         return -1;
     }
     int n = std::strtol(argv[1], nullptr, 10);
-    if (n <= 0)
-        throw runtime_error("Invalid argument");
+    if (n <= 0) {
+        cerr << "Invalid argument" << endl;
+        return -1;
+    }
 
     vector<PrimeType> primes = get_primes(MAXN);
 

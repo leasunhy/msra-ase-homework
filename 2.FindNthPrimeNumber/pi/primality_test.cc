@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <exception>
 #include <random>
 #include <chrono>
 #include <limits>
@@ -14,6 +13,7 @@ using PrimeType = unsigned long long;
 
 const int TEST_COUNT = 15;
 const string HELPER_FILENAME = "10000.dat";
+const int PRIME_COUNT = 203280211;
 
 void print_usage(int argc, char **argv);
 bool is_prime(PrimeType n, std::function<int()>& rand_int);
@@ -26,9 +26,11 @@ int main(int argc, char ** argv)
         print_usage(argc, argv);
         return -1;
     }
-    unsigned n = std::strtoul(argv[1], nullptr, 10);
-    if (n <= 0)
-        throw runtime_error("Invalid argument");
+    long long n = std::strtoull(argv[1], nullptr, 10);
+    if (n <= 0 || n > PRIME_COUNT) {
+        cerr << "invalid argument." << endl;
+        return -1;
+    }
 
     int bin_len;
     vector<unsigned int> lens;
@@ -41,7 +43,7 @@ int main(int argc, char ** argv)
         fin.close();
     }
 
-    PrimeType sum = 0, bin_index = 0, prev_sum = 0;
+    long long sum = 0, bin_index = 0, prev_sum = 0;
     while (sum < n) {
         prev_sum = sum;
         sum += lens[bin_index];
