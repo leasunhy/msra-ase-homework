@@ -93,7 +93,8 @@ string print_number(PrimeType n, int section_len)
     size_t first = ori.length() % section_len;
     string result = ori.substr(0, first);
     for (size_t i = first; i < ori.length(); i += section_len) {
-        result += ' ';
+        if (!result.empty())
+            result += ' ';
         result += ori.substr(i, section_len);
     }
     return result;
