@@ -41,12 +41,13 @@ int main(int argc, char ** argv)
         fin.close();
     }
 
-    int sum = 0, bin_index = 0, prev_sum;
+    PrimeType sum = 0, bin_index = 0, prev_sum;
     while (sum < n) {
         prev_sum = sum;
         sum += lens[bin_index];
         bin_index += 1;
     }
+
     // the range of current bin is [lower, upper)
     PrimeType upper = bin_index * bin_len;
     PrimeType lower = upper - bin_len;
@@ -68,7 +69,7 @@ int main(int argc, char ** argv)
         if (is_prime(i, rand_int))
             bin_prime_counter -= 1;
         if (bin_prime_counter == 0) {
-            cout << i << endl;
+            cout << print_number(i) << endl;
             return 0;
         }
     }
