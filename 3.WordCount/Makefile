@@ -1,5 +1,5 @@
-CPPFLAGS += -std=c++14 -O2
-LIBS += -lboost_filesystem -lboost_system -lpthread
+CPPFLAGS += -std=c++14 -Ofast -Wall
+LIBS += -lboost_filesystem -lboost_system -lpthread -lboost_regex
 BIN := wordcount.x
 
 .PHONY: all clean
