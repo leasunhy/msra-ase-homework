@@ -146,10 +146,14 @@ bool is_prime(PrimeType n, std::function<int()>& rand_int)
 {
     if (n <= 4)
         return n == 2 || n == 3;
+    
+    PrimeType m = n % 6;
+    if (m != 1 && m != 5)
+        return false;
 
     PrimeType d = n - 1;
-    while (d % 2 == 0)
-        d /= 2;
+    while ((d & 1) == 0)
+        d >>= 1;
 
     for (int i = 0; i < TEST_COUNT; ++i) {
         if (!miller_test(d, n, rand_int))
